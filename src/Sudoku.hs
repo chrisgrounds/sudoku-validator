@@ -18,11 +18,9 @@ axisIsValid :: [Int] -> Bool
 axisIsValid xs = length xs == 9 && unique xs
 
 constructSubGrids :: [[Int]] -> [[Int]]
-constructSubGrids = concatMap constructSubGrid . constructSubGrids'
-  where constructSubGrids' :: [[Int]] -> [[[Int]]]
-        constructSubGrids' = map (take 3 . drop 3) . chunksOf 3
-        constructSubGrid :: [[Int]] -> [[Int]]
-        constructSubGrid = concatMap (take 3 . drop 3) . chunksOf 3
+constructSubGrids = concatMap (concatMap chunk . chunk)
+  where chunk :: [Int] -> [[Int]]
+        chunk = (take 3 . drop 3) . chunksOf 3
 
 unique :: (Eq a) => [a] -> Bool
 unique []     = True
